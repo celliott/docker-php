@@ -7,7 +7,8 @@ MONGODB ?= 'mongodb://@172.17.42.1:27017/api'
 ENVS =  -e MONGODB=$(MONGODB)
 PORTS = -p 80:80
 CONTAINER = php
-VOLUMES =
+VOLUMES = -v /data/html:/var/www/html
+
 
 
 .PHONY: container run
