@@ -11,23 +11,22 @@ VOLUMES = -v /data/html:/var/www/html
 
 
 
-.PHONY: container run
+.PHONY: build run
 
-container :
+build :
 	docker build -t $(CONTAINER) .
 
-run :
-	docker run --name $(CONTAINER) -i -d $(PORTS) $(ENVS) $(VOLUMES) -t $(CONTAINER)
+run : rm
+	docker run --restart=always --name $(CONTAINER) -i -d $(PORTS) $(ENVS) $(VOLUMES) -t $(CONTAINER)
+
 stop :
 	docker stop $(CONTAINER)
 	docker rm $(CONTAINER)
-kill :
-	docker kill $(CONTAINER)
-	docker rm $(CONTAINER)
-restart :
-	docker kill $(CONTAINER)
-	docker rm $(CONTAINER)
-	docker run --name $(CONTAINER) -i -d $(PORTS) $(ENVS) $(VOLUMES) -t $(CONTAINER)
+
+rm :
+	-docker kill $(CONTAINER)
+	-docker rm $(CONTAINER)
+
 attach:
 	docker attach $(CONTAINER)
 
